@@ -1,8 +1,8 @@
 package day2;
 
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +18,11 @@ public class SpartanTest {
     public static void setUp(){
         baseURI = "http://54.152.5.223:8000";
         basePath = "/api";
+    }
+
+    @AfterAll
+    public static void tearDown(){
+        reset();
     }
 
     @DisplayName("Testing/ api/spartan endpoint")
@@ -37,7 +42,7 @@ public class SpartanTest {
         given()
                 .header("accept","application/xml").
         when()
-                .get("http://54.152.5.223:8000/api/spartans").
+                .get("/spartans").
         then()
                 .statusCode(200)
                 .header("Content-Type","application/xml");
@@ -46,9 +51,9 @@ public class SpartanTest {
         given()
                 .accept(ContentType.XML).
         when()
-                .post("http://54.152.5.223:8000/api/spartans").
+                .get("/spartans").
         then()
-                .statusCode(is(200))
+                .statusCode(200)
                 .contentType(ContentType.XML);
     }
 

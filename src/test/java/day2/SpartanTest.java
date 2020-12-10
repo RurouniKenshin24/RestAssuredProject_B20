@@ -1,7 +1,9 @@
 package day2;
 
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,15 +14,42 @@ import static org.hamcrest.Matchers.*;
 
 public class SpartanTest {
 
+    @BeforeAll
+    public static void setUp(){
+        baseURI = "http://54.152.5.223:8000";
+        basePath = "/api";
+    }
+
     @DisplayName("Testing/ api/spartan endpoint")
     @Test
     public void testGetAllSpartan(){
-        Response response = get("http://54.152.5.223:8000/api/spartans");
+        Response response = get("/spartans");
         response.prettyPrint();
 
         assertThat(response.statusCode(),equalTo(200));
 
         assertThat(response.contentType(), is(ContentType.JSON.toString()));
+    }
+
+    @DisplayName("Testing/ api/spartan endpoint XML")
+    @Test
+    public void testGetAllSpartanXML(){
+        given()
+                .header("accept","application/xml").
+        when()
+                .get("http://54.152.5.223:8000/api/spartans").
+        then()
+                .statusCode(200)
+                .header("Content-Type","application/xml");
+
+        //This is the same request but in a easier way!!!
+        given()
+                .accept(ContentType.XML).
+        when()
+                .post("http://54.152.5.223:8000/api/spartans").
+        then()
+                .statusCode(is(200))
+                .contentType(ContentType.XML);
     }
 
 }

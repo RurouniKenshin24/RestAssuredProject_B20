@@ -85,7 +85,21 @@ public class AddSpartan {
     public void testPostSpartanExternalFile(){
         File file = new File("singleSpartan.json");
 
-
+        given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(file).
+        when()
+                .post("/spartans").
+        then()
+                .log().all()
+                .statusCode(201)
+                .contentType(ContentType.JSON)
+                .header("Date",is(not("null")))
+                .body("success",is("A Spartan is Born!"))
+                .body("data.name",is("Oguzhan"))
+                .body("data.gender",is("Male"))
+                .body("data.phone",is(6529873215L));
 
     }
 }

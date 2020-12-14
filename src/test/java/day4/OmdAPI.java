@@ -41,8 +41,8 @@ public class OmdAPI {
     public void testSendingRequestAngGetLog(){
         given()
                 .queryParam("t","John Wick")
-                .queryParam("apikey","5b5d0fe8").
-                log().all().
+                .queryParam("apikey","5b5d0fe8")
+                .log().all().
         when()
                 .get().
         then()

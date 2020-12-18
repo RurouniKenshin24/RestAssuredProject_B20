@@ -1,4 +1,4 @@
-package pojo;
+package pojo.spartan;
 
 public class Spartan {
 
@@ -35,5 +35,14 @@ public class Spartan {
 
     public void setPhone(long phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return "Spartan{" +
+                "name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", phone=" + phone +
+                '}';
     }
 }

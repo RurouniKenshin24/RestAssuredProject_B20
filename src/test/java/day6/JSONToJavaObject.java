@@ -1,19 +1,20 @@
 package day6;
 
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pojo.Spartan;
+import pojo.spartan.SpartanRead;
 import utility.ConfigurationReader;
 
+import java.util.List;
 import java.util.Map;
 
 import static io.restassured.RestAssured.*;
-import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 public class JSONToJavaObject {
 
@@ -50,6 +51,7 @@ public class JSONToJavaObject {
 
         System.out.println("payloadMap = " + payloadMap);
 
+        SpartanRead sp =
         given()
                 .auth().basic("admin","admin")
                 .log().all()
@@ -63,8 +65,41 @@ public class JSONToJavaObject {
                 .contentType(ContentType.JSON).
         extract()
                 .jsonPath()
-                //.getObject("",String)
-        ;
+                .getObject("", SpartanRead.class);
 
+        System.out.println("sp = " + sp);
     }
+
+    @DisplayName("Get All Data with save JSON Array as Java Object")
+    @Test
+    public void testGetSpartanArrayAsJavaObject() {
+
+        Response response = given()
+                                .auth().basic("admin","admin").
+                            when()
+                                .get("/spartans");
+
+        JsonPath jp = response.jsonPath();
+
+        List<SpartanRead> allSpartanPOJO = jp.getList("", SpartanRead.class);
+
+        allSpartanPOJO.forEach(System.out::println);
+
+        //This is the same thing with extract method in a long way!!!
+/*        given()
+                .auth().basic("admin","admin")
+                .log().all()
+                .accept(ContentType.JSON).
+        when()
+                .get("/spartans").
+        then()
+                .log().all()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+        .extract()
+                .jsonPath()
+                .get();
+*/
+    }
+
 }

@@ -11,18 +11,18 @@ public class DB_Utility {
     private static Statement statement;
     private static ResultSet rs;
 
-    public static void createConnection(){
-        String url = ConfigurationReader.getProperty("database.url");
-        String userName = ConfigurationReader.getProperty("database.username");
-        String password = ConfigurationReader.getProperty("database.password");
-
-        try {
-            connection = DriverManager.getConnection(url,userName,password);
-            System.out.println("CONNECTION SUCCESSFUL");
-        } catch (SQLException e) {
-            System.out.println("CONNECTION HAS FAILED!!!" + e.getMessage());
-        }
-    }
+//    public static void createConnection(){
+//        String url = ConfigurationReader.getProperty("hr.database.url");
+//        String userName = ConfigurationReader.getProperty("hr.database.username");
+//        String password = ConfigurationReader.getProperty("hr.database.password");
+//
+//        try {
+//            connection = DriverManager.getConnection(url,userName,password);
+//            System.out.println("CONNECTION SUCCESSFUL");
+//        } catch (SQLException e) {
+//            System.out.println("CONNECTION HAS FAILED!!!" + e.getMessage());
+//        }
+//    }
 
     public static void createConnection(String url, String username, String password){
 

@@ -2,18 +2,26 @@ package testbase;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import utility.ConfigurationReader;
+import utility.DB_Utility;
 
 import static io.restassured.RestAssured.*;
 
 public abstract class HR_ORDS_TestBase {
     @BeforeAll
     public static void setUp(){
-        baseURI = "http://54.152.5.223:1000";
-        basePath = "/ords/hr";
+        baseURI = ConfigurationReader.getProperty("HR.ORDS.base.URI");
+        basePath = ConfigurationReader.getProperty("HR.ORDS.base.path");
+
+        DB_Utility.createConnection(ConfigurationReader.getProperty("hr.database.url")
+                                    ,ConfigurationReader.getProperty("hr.database.username")
+                                    ,ConfigurationReader.getProperty("hr.database.password"));
     }
 
     @AfterAll
     public static void tearDown(){
         reset();
+
+        DB_Utility.destroy();
     }
 }

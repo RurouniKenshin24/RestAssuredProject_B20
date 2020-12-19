@@ -41,5 +41,6 @@ public class HR_ORDS_API_DB_Test extends HR_ORDS_TestBase {
         Map<String,String> thirdRow = DB_Utility.getRowMap(3);
 
         assertThat(region.getRegion_id() + "",equalTo(thirdRow.get("REGION_ID")));
+        assertThat(region.getRegion_name() + "",equalTo(thirdRow.get("REGION_NAME")));
     }
 }

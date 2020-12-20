@@ -149,6 +149,18 @@ public class DB_Utility {
         return mapList;
     }
 
+    public static List<String> getColumnDataAsList(String colName){
+        List<String> columnList = new ArrayList<>();
+
+        for (int j = 1;j <= getColumnCount();j++){
+            for (int i = 1;i <= getRowCount();i++){
+                columnList.add(getColumnDataAtRow(i,j));
+            }
+        }
+
+        return columnList;
+    }
+
     public static List<Map<String, String>> getAllDataAsMapOld(){
         List<Map<String, String>> mapList = new ArrayList<>();
 
@@ -175,9 +187,9 @@ public class DB_Utility {
 
     public static void destroy(){
         try {
-            rs.close();
-            statement.close();
-            connection.close();
+            if (rs!=null) rs.close();
+            if (statement!=null) statement.close();
+            if (connection!=null) connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,6 @@
 package day9;
 
+import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pojo.hr.Department;
@@ -36,6 +37,7 @@ public class LombokTest extends HR_ORDS_TestBase {
     @DisplayName("GET/departments and filter results with JsonPath Groovy")
     @Test
     public void testFilterDepartmentsWithGroovy(){
+        //it represents each item in the json path!!!
         List<Department> departmentList =
                 get("/departments").jsonPath().getList("items.findAll{it.manager_id != null}",Department.class);
 
@@ -46,5 +48,23 @@ public class LombokTest extends HR_ORDS_TestBase {
 
         filteredDepartments.forEach(System.out::println);
 
+        List<Integer> newList =
+                get("/departments").jsonPath().getList("items.department_id.findAll{it > 70}");
+
+        System.out.println(newList);
+
+        List<Integer> newList2 =
+                get("/departments").jsonPath().getList("items.department_id.findAll{it > 70 && it < 100}");
+        System.out.println(newList2);
+
+        int sumOfDepID =
+                get("/departments").jsonPath().getInt("items.department_id.sum()");
+        System.out.println(sumOfDepID);
+
+        JsonPath jp = get("/departments").jsonPath();
+        //list of department_id from index no 7 to 10
+        System.out.println(jp.getList("items.department_id[7..10]"));
+        //last index no of department_id list
+        System.out.println(jp.getInt("items.department_id[-1]"));
     }
 }

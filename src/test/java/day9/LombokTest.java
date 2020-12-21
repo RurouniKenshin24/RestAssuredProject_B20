@@ -32,4 +32,19 @@ public class LombokTest extends HR_ORDS_TestBase {
         temporaryList.removeIf(eachDep -> eachDep.getManager_id() == 0);
         temporaryList.forEach(System.out::println);
     }
+
+    @DisplayName("GET/departments and filter results with JsonPath Groovy")
+    @Test
+    public void testFilterDepartmentsWithGroovy(){
+        List<Department> departmentList =
+                get("/departments").jsonPath().getList("items.findAll{it.manager_id != null}",Department.class);
+
+        departmentList.forEach(System.out::println);
+
+        List<String> filteredDepartments =
+                get("/departments").jsonPath().getList("items.findAll {it.manager_id != null}.department_name");
+
+        filteredDepartments.forEach(System.out::println);
+
+    }
 }
